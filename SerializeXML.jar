@@ -1,0 +1,59 @@
+import java.io.File;
+import java.util.Arrays;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
+public class XmlSerializationExample {
+    public static void main(String[] args) throws JAXBException {
+        // Dados a serem serializados em XML
+        Pessoa[] pessoas = {
+            new Pessoa("Ana", 25, "São Paulo"),
+            new Pessoa("João", 30, "Rio de Janeiro")
+        };
+
+        // Criar um contexto JAXB
+        JAXBContext jaxbContext = JAXBContext.newInstance(Pessoas.class);
+
+        // Criar um marshaller
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+        // Serializar para XML e gravar em arquivo
+        marshaller.marshal(new Pessoas(Arrays.asList(pessoas)), new File("pessoas.xml"));
+
+        System.out.println("Dados serializados em XML no arquivo pessoas.xml");
+    }
+}
+
+// Classe para representar uma pessoa
+class Pessoa {
+    private String nome;
+    private int idade;
+    private String cidade;
+
+    public Pessoa() {
+    }
+
+    public Pessoa(String nome, int idade, String cidade) {
+        this.nome = nome;
+        this.idade = idade;
+        this.cidade = cidade;
+    }
+
+    // Getters e setters (omitidos para simplicidade)
+}
+
+// Classe para representar uma lista de pessoas
+class Pessoas {
+    private List<Pessoa> pessoas;
+
+    public Pessoas() {
+    }
+
+    public Pessoas(List<Pessoa> pessoas) {
+        this.pessoas = pessoas;
+    }
+
+    // Getter e setter para pessoas (omitidos para simplicidade)
+}
